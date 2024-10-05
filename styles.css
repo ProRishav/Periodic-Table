@@ -1,0 +1,192 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+    user-select: none; /* Standard for modern browsers */
+    -webkit-user-select: none; /* Chrome, Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+.overlay{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    background-color: rgba(74, 74, 74, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background-color 10ms ease, backdrop-filter .4s ease;
+    transition: all 10ms ease;
+}
+body{
+    background: rgb(87, 85, 85);
+    font-family: 'Roboto', sans-serif;
+}
+.container{
+    background: #4A4A4A;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.table{
+    width: 70vw;
+    padding: 1.95vw;
+    background: #fff;
+    background: #18141c;
+    aspect-ratio: 5/3;
+    display: grid;
+    grid-template-columns: 1.57vw repeat(18, minmax(0.39vw, 1fr));
+    grid-template-rows: 1.57vw repeat(7, minmax(0.39vw, 1fr)) 1.17vw repeat(2, minmax(00.39vw, 1fr));
+    grid-gap: 0.20vw;
+}
+.group-number{
+    text-align: center;
+    font-size: 0.80vw;
+    color: aliceblue;
+    transition: all 0.2s ease;
+}
+.period-number{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .80vw;
+    color: aliceblue;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+.period-number:hover{
+    transform: scale(1.05);
+}
+.element{
+    height: 100%;
+    transition: transform 0.07s ease, backdrop-filter 0.3s ease;
+    overflow: hidden;
+    color: aliceblue;
+    
+}
+.element-shell{
+    aspect-ratio: 1/1;
+    font-size: .64vw;
+    overflow: hidden;
+    position: relative;
+    justify-content: center;
+    align-content: center;
+    padding: 0.39vw;
+}
+.element > .element-shell > .symbol{
+    position: absolute;
+    font-size: 1vw;
+    font-weight: 400;
+    top: 0.9vw;
+    left: 0.39vw;
+    transition: all 0.2s ease;
+}
+.element > .element-shell > .atomic-number{
+    position: absolute;
+    top: 0.39vw;
+    right: 0.39vw;
+    font-size: .51vw;
+    font-weight: 400;
+    text-align: right;
+    display: inline;
+    transition: all 0.2s ease;
+}
+.element > .element-shell > .name{
+    position: absolute;
+    font-size: 0.41vw;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    top: 2.3vw;
+    left: 0.39vw;
+}
+.element > .element-shell > .atomic-weight{
+    position: absolute;
+    font-size: 0.41vw;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    top: 2.9vw;
+    left: 0.39vw;
+}
+.nides{
+    display: flex;
+    color: aliceblue;
+    font-size: 0.51vw;
+    font-weight: 600;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.nides{
+    transition: all .3s ease;
+}
+.nides:hover{
+    filter: brightness(.8);
+}
+.nides > div:first-child{
+    font-size: 0.6vw;
+    padding-top: .8vw;
+}
+.element-info{
+    position: absolute;
+    /* display: none; */
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    left: 0;
+    top: 100%;
+    transition: top .3s ease;
+    /* filter: blur(10px); */
+}
+.info{
+    font-size: 0.15vw;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.078vw 0.156vw;
+    transform: translateY(5px);
+}
+.info{
+    opacity: 0;
+}
+.info:first-child{
+    padding-top: 0.3vw;
+}
+.info:last-child{
+    text-align: right;
+}
+.anime:nth-child(1){
+    animation: infoAnimation 0.2s ease-in-out 0.25s 1 normal forwards;
+}
+.anime:nth-child(2){
+    animation: infoAnimation 0.2s ease-in-out 0.28s 1 normal forwards;
+}
+.anime:nth-child(3){
+    animation: infoAnimation 0.2s ease-in-out 0.31s 1 normal forwards;
+}
+.anime:nth-child(4){
+    animation: infoAnimation 0.2s ease-in-out 0.34s 1 normal forwards;
+}
+.anime:nth-child(5){
+    animation: infoAnimation 0.2s ease-in-out 0.37s 1 normal forwards;
+}
+.anime:nth-child(6){
+    animation: infoAnimation 0.2s ease-in-out 0.40s 1 normal forwards;
+}
+.anime:nth-child(7){
+    animation: infoAnimation 0.2s ease-in-out 0.43s 1 normal forwards;
+}
+.anime:nth-child(8){
+    animation: infoAnimation 0.2s ease-in-out 0.46s 1 normal forwards;
+}
+@keyframes infoAnimation {
+    0%{
+        transform: translateY(0.20vw);
+        opacity: 0;
+    }
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
