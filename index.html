@@ -6,13 +6,69 @@
     <title>Periodic Table</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="image/periodic-table.png" type="image/png">
+    <!-- <link rel="icon" href="image/periodic-table.png" type="image/png"> -->
 </head>
 <body>
     <div class="overlay", id="overLay"></div>
+    <div id="enter-side-panel"></div>
+    <div class="side-panel">
+        <div id="arrow"></div>
+        <div class="data">
+            <div id="element-info">
+                <p id="elementAtomicNum">1</p>
+                <div class="element-name-symbol">
+                    <p id="elementSymbol">H</p>
+                    <p id="elementName">Hydrogen</p>
+                </div>
+                <div id="electronConfig"></div>
+                <canvas id="atom"></canvas>
+                <div id="wikipedia"><a href="https://en.wikipedia.org/wiki/Hydrogen" target="_blank">Wikipedia</a></div>
+            </div>
+            <div id="properties" class="accordion">
+                <div class="hbar"></div>
+                <div class="accordion-header">
+                    <div class="accordion-subheader">Properties</div>
+                    <canvas class="arrowCanvas"></canvas>
+                </div>
+                <div id="propertyData" class="content"></div>
+            </div>
+            <div id="" class="accordion">
+                <div class="hbar"></div>
+                <div class="accordion-header">
+                    <div class="accordion-subheader">Electrons</div>
+                    <canvas class="arrowCanvas"></canvas>
+                </div>
+                <div id="propertyData" class="content"></div>
+            </div>
+            <div id="" class="accordion">
+                <div class="hbar"></div>
+                <div class="accordion-header">
+                    <div class="accordion-subheader">Isotopes</div>
+                    <canvas class="arrowCanvas"></canvas>
+                </div>
+                <div id="propertyData" class="content"></div>
+            </div>
+            <div id="" class="accordion">
+                <div class="hbar"></div>
+                <div class="accordion-header">
+                    <div class="accordion-subheader">Compounds</div>
+                    <canvas class="arrowCanvas"></canvas>
+                </div>
+                <div id="propertyData" class="content"></div>
+            </div>
+            <div class="hbar"></div>
+            <div class="side-overlay"></div>
+        </div>
+    </div>
     <div class="container">
         <div class="table"></div>
     </div>
-    <script src="script.js"></script>
+    <script src="main.js"></script>
+    <script src="table-layout.js"></script>
+    <script src="overlay.js"></script>
+    <script src="side-panel.js"></script>
+    <script src="atom-animation.js"></script>
+    <script src="arrow.js"></script>
+    <script src="get-data.js"></script>
 </body>
 </html>

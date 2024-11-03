@@ -16,7 +16,7 @@
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(10px);
     transition: background-color 10ms ease, backdrop-filter .4s ease;
-    transition: all 10ms ease;
+    transition: all .1s ease;
 }
 body{
     background: rgb(87, 85, 85);
@@ -40,6 +40,7 @@ body{
     grid-template-columns: 1.57vw repeat(18, minmax(0.39vw, 1fr));
     grid-template-rows: 1.57vw repeat(7, minmax(0.39vw, 1fr)) 1.17vw repeat(2, minmax(00.39vw, 1fr));
     grid-gap: 0.20vw;
+    /* transform: translateX(-100px); */
 }
 .group-number{
     text-align: center;
@@ -64,6 +65,7 @@ body{
     transition: transform 0.07s ease, backdrop-filter 0.3s ease;
     overflow: hidden;
     color: aliceblue;
+    cursor: pointer;
     
 }
 .element-shell{
@@ -109,7 +111,7 @@ body{
     top: 2.9vw;
     left: 0.39vw;
 }
-.nides{
+/* .nides{
     display: flex;
     color: aliceblue;
     font-size: 0.51vw;
@@ -126,6 +128,27 @@ body{
     filter: brightness(.8);
 }
 .nides > div:first-child{
+    font-size: 0.6vw;
+    padding-top: .8vw;
+} */
+.noids{
+    display: flex;
+    color: aliceblue;
+    font-size: 0.51vw;
+    font-weight: 600;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.noids{
+    transition: all .3s ease;
+}
+.noids:hover{
+    filter: brightness(.8);
+    cursor: pointer;
+}
+.noids > div:first-child{
     font-size: 0.6vw;
     padding-top: .8vw;
 }
@@ -156,28 +179,28 @@ body{
 .info:last-child{
     text-align: right;
 }
-.anime:nth-child(1){
+.animate:nth-child(1){
     animation: infoAnimation 0.2s ease-in-out 0.25s 1 normal forwards;
 }
-.anime:nth-child(2){
+.animate:nth-child(2){
     animation: infoAnimation 0.2s ease-in-out 0.28s 1 normal forwards;
 }
-.anime:nth-child(3){
+.animate:nth-child(3){
     animation: infoAnimation 0.2s ease-in-out 0.31s 1 normal forwards;
 }
-.anime:nth-child(4){
+.animate:nth-child(4){
     animation: infoAnimation 0.2s ease-in-out 0.34s 1 normal forwards;
 }
-.anime:nth-child(5){
+.animate:nth-child(5){
     animation: infoAnimation 0.2s ease-in-out 0.37s 1 normal forwards;
 }
-.anime:nth-child(6){
+.animate:nth-child(6){
     animation: infoAnimation 0.2s ease-in-out 0.40s 1 normal forwards;
 }
-.anime:nth-child(7){
+.animate:nth-child(7){
     animation: infoAnimation 0.2s ease-in-out 0.43s 1 normal forwards;
 }
-.anime:nth-child(8){
+.animate:nth-child(8){
     animation: infoAnimation 0.2s ease-in-out 0.46s 1 normal forwards;
 }
 @keyframes infoAnimation {
@@ -189,4 +212,197 @@ body{
         transform: translateY(0px);
         opacity: 1;
     }
+}
+#enter-side-panel{
+    position: absolute;
+    right: 0;
+    width: 5vw;
+    height: 100vh;
+    z-index: 110;
+}
+.side-panel{
+    position: absolute;
+    height: 100vh;
+    width: 0;
+    right: 0;
+    background: #222;
+    transition: width 0.3s ease-in-out;
+    z-index: 110;
+}
+#arrow{
+    position: absolute;
+    display: flex;
+    top: 50%;
+    transform: translateY(-50%);
+    background:#131313;
+    width: 1.2vw;
+    height: 3vw;
+    left: -1.2vw;
+    clip-path: polygon(0% 15%, 100% 0%, 100% 100%, 0% 85%);
+    border-top-left-radius: 0.664vw;
+    border-bottom-left-radius: 0.664vw;
+    justify-content: space-around;
+    align-items: center;
+}
+#arrow::after{
+    content: '';
+    width: 0.11vw;
+    height: 1.5vw;
+    background: #4d4d4d;
+    top: 0;
+    border-radius: 25%;
+    margin-right: 0.2vw;
+}
+#arrow::before{
+    content: '';
+    width: 0.11vw;
+    height: 1vw;
+    background: #4d4d4d;
+    top: 0;
+    border-radius: 25%;
+    margin-left: 0.2vw;
+}
+#arrow:hover{
+    cursor: pointer;
+}
+.data{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    /* margin-left: 1vw;
+    margin-right: 1vw; */
+    overflow: hidden;
+}
+#element-info{
+    position: absolute;
+    /* left: -100px; */
+    width: 100%;
+    /* padding: 20px; */
+    aspect-ratio: 1/1;
+    background: #18141c;
+    color: aliceblue;
+    font-size: 20px;
+}
+#atom{
+    background: white;
+    opacity: .2;
+    /* height: 11vw;
+    width: 11vw; */
+    /* aspect-ratio: 1/1; */
+}
+.element-name-symbol{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(calc(-50% + .5vw));
+    text-align: center;
+    transition: all .3s ease;
+}
+#elementAtomicNum{
+    position: absolute;
+    right: 0.390625vw;
+    top: 0.390625vw;
+    font-size: 1vw;
+    text-shadow: rgb(225, 225, 225) 0px 0px 0.78vw;
+}
+#elementSymbol{
+    font-size: 4vw;
+    text-shadow: rgb(225, 225, 225) 0px 0px 0.78vw;
+}
+#elementName{
+    font-size: 0.78125vw;
+    font-size: 1vw;
+    text-shadow: rgb(225, 225, 225) 0px 0px 0.78vw;
+}
+#electronConfig{
+    position: absolute;
+    top: 0;
+    margin: 0.390625vw;
+    text-shadow: rgb(225, 225, 225) 0px 0px 0.78vw;
+}
+.electron-config-data{
+    text-align: center;
+    font-size: 0.9375vw;
+}
+#wikipedia{
+    position: absolute;
+    padding: 0.2vw;
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    /* top: 8.3984375vw; */
+    bottom: 1vw;
+    left: 50%;
+    transform: translateX(-50%) translateY(0%);
+    transition: all .3s ease;
+    opacity: 0%;
+}
+#wikipedia > a{
+    list-style: none;
+    text-decoration: none;
+    /* background-color: #131313; */
+    color: aliceblue;
+    font-size: 0.5vw;
+    font-weight: 500;
+    transition: all .3s ease;
+}
+#wikipedia > a:hover{
+    font-weight: 900;
+    font-size: .7vw;
+    text-shadow: rgb(225, 225, 225) 0 0 0.78vw;
+}
+.data{
+    background: #18141c;
+}
+.side-overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #18141c;
+    width: 3vw;
+    transition: all .5s ease;
+}
+#properties{
+    margin-top: 11.5vw;
+}
+.accordion{
+    background: #18141c;
+}
+.accordion:hover{
+    cursor: pointer;
+}
+.accordion-subheader{
+    color: #bebebe;
+    font-weight: 500;
+    transition: all 0.1s ease;
+}
+.accordion-header:hover .accordion-subheader {
+    color:aliceblue;
+    /* font-weight: 900; */
+    /* font-size: .85vw; */
+}
+.accordion-header{
+    width: 9.8vw;
+    display: flex;
+    aspect-ratio: 5/1;
+    background: #18141c;
+    color: aliceblue;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .8vw;
+    padding: 0.4vw 0.6vw;
+}
+.hbar{
+    background: #4A4A4A;
+    width: 10vw;
+    height: 0.1953vw;
+    border-radius: 0.1953vw;
+    margin: auto;
+}
+.content{
+    width: 100%;
+    height: 0px;
+    transition: all .3s ease;
 }
