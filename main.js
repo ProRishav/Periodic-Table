@@ -20,7 +20,7 @@ function main(){
     table.deploy();
     table.onElementClick(elementClicked);
     overlay.onClick(()=>{table.reset()});
-
+    atomCanvas.updatePreview(table.currentHoverElement);
     function elementClicked(){
         overlay.overlayDiv.style.zIndex = 100;
         overlay.overlayDiv.style.background = "rgba(74, 74, 74, .2)";

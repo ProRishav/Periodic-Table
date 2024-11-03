@@ -134,7 +134,7 @@ class AtomCanvas {
     }
     hoverOut(){
         this.elementNameSymbol.style.transform = 'translateX(-50%) translateY(calc(-50% + .5vw))'
-        this.wikipedia.style.opacity = 1;
+        this.wikipedia.style.opacity = 0;
         this.wikipedia.style.transform = 'translateX(-50%) translateY(0%)';
     }
     static getRadii(electronConfig, canvasWidth){
