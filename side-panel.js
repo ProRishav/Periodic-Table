@@ -9,7 +9,6 @@ class SidePanel{
         this.sidePanelDiv.addEventListener('mouseenter', ()=>{this.enterSidePanel()});
         this.checkEnterSidePanel.addEventListener('mouseenter', ()=>{this.enterSidePanel()});
         this.checkEnterSidePanel.addEventListener('mouseleave', ()=>{this.leaveSidePanel()});
-        this.checkEnterSidePanel.addEventListener('dblclick', ()=>{this.toggleSidePannel()});
     }
     toggleSidePannel(){
         const sideOverlay = document.querySelectorAll('.side-overlay')[0];
@@ -35,6 +34,10 @@ class SidePanel{
     }
     clickedSidePanel(func){
         this.panelArrow.addEventListener('click', ()=>{
+            func();
+            this.toggleSidePannel();
+        });
+        this.checkEnterSidePanel.addEventListener('dblclick', ()=>{
             func();
             this.toggleSidePannel();
         });
