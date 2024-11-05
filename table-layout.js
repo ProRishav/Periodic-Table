@@ -29,6 +29,9 @@ class Table {
         this.table.style.gridTemplateColumns = this.gridTemplateColumns;
         this.table.style.gridTemplateRows = this.gridTemplateRows;
         this.table.style.gridGap = this.gridGap;
+        this.selective = false;
+        this.clicked = false;
+        this.toggle = true;
     }
     addBlank(rowStart, columnStart, width, height, bg){
         const blankDiv = document.createElement('div');
@@ -115,7 +118,7 @@ class Table {
         this.table.appendChild(actinoids);
     }
     clickedNoid(div, type){
-        selective = true;
+        this.selective = true;
         div.style.zIndex = 101;
         this.selectElements('groupBlock', type);
     }
@@ -157,7 +160,7 @@ class Table {
         });
     }
     clickedElementType(elementTypeDiv){
-        selective = true;
+        this.selective = true;
         Array.from(this.groupBlockPanel.children).forEach((typeDiv)=>{
             typeDiv.children[0].style.textShadow = '';
             typeDiv.style.filter = 'brightness(1)';
@@ -254,15 +257,27 @@ class Table {
     updateElementBackground(){
         Object.keys(this.elementDivs).forEach((element)=>{
             const elementDiv = this.elementDivs[element];
+            elementDiv.style.transition = "transform 0.07s ease, backdrop-filter 0.3s ease, background-color 0.3s ease";
             const elementInfo = elementDiv.querySelectorAll('.element-info')[0];
-            elementDiv.style.background = this.elementColorMap[element].replace('alpha', '1');
-            elementDiv.style.fontWeight = "200";
+            if (this.clicked){
+                elementDiv.style.background = `linear-gradient(135deg,\
+                ${this.elementColorMap[element].replace('alpha', '.3')},\
+                ${this.elementColorMap[element].replace('alpha', '.6')})`;
+                elementDiv.style.backdropFilter = "blur(0.39vw)";
+            }else{
+                elementDiv.style.background = this.elementColorMap[element].replace('alpha', '1');
+            }
+            // elementDiv.style.fontWeight = "200";
             elementInfo.style.background = this.elementColorMap[element].replace('alpha', '.3');
             elementInfo.style.backdropFilter = 'blur(5px)';
+            elementDiv.style.borderColor = this.elementColorMap[element].replace('alpha', '.5');
+            setTimeout(() => {
+                elementDiv.style.transition = "transform 0.07s ease, backdrop-filter 0.3s ease";
+            }, 300);
         });
     }
     clickedGroupPeriod(groupPeriodDiv, type){
-        selective = true;
+        this.selective = true;
         const groupPeriod = groupPeriodDiv.innerText;
         groupPeriodDiv.style.zIndex = 101;
         groupPeriodDiv.style.transform = "translateY(0vw) scale(1.4)";
@@ -278,12 +293,13 @@ class Table {
         return map;
     }
     elementClicked(elementDiv){
+        console.log(this.clicked)
         const lanthanoids = document.getElementById('Lanthanoids');
         const actinoids = document.getElementById('Actinoids');
         lanthanoids.style.zIndex = 'auto';
         actinoids.style.zIndex = 'auto';
         const elementInfo = elementDiv.querySelectorAll('.element-info')[0];
-        if (!clicked){
+        if (!this.clicked){
             Table.setZAuto();
             Array.from(this.groupBlockPanel.children).forEach((type)=>{
                 type.children[0].style.textShadow = '';
@@ -299,11 +315,11 @@ class Table {
             elementDiv.style.zIndex = 102;
             elementDiv.style.transform = "scale(3)";
             elementDiv.classList.remove('element-hover');
-            toggle = true;
-            clicked = true;
+            this.toggle = true;
+            this.clicked = true;
         }else{
-            Table.initiateToggle(elementDiv);
-            toggle = !toggle;
+            this.initiateToggle(elementDiv);
+            this.toggle = !this.toggle;
         }
     }
     onHover(elementSymbol){
@@ -321,19 +337,6 @@ class Table {
         this.currentHoverElement = elementSymbol;
         const elementData = this.allElementData[elementSymbol];
         const elementDiv = this.elementDivs[elementSymbol];
-        // const groupBlock = elementData.groupBlock.split(' ')[0]
-        // const element_atomic_num = document.getElementById('elementAtomicNum');
-        // const element_symbol = document.getElementById('elementSymbol');
-        // const element_name = document.getElementById('elementName');
-        // const wikipedia = document.getElementById('wikipedia').querySelector("a");
-
-        // const electron_config = expandElectronConfig(electronConfigSPDF, elementData.electronicConfiguration);
-        // element_atomic_num.innerHTML = elementData.atomicNumber;
-        // element_symbol.innerHTML = elementData.symbol;
-        // element_name.innerHTML = elementData.name;
-        // wikipedia.href = `https://en.wikipedia.org/wiki/${elementData.name}`
-        // atomCanvas.updateCanvas(electron_config);
-        // updateElectronConfigDiv(atomCanvas.electrons);
         elementDiv.style.zIndex = '102';
         if (elementDiv.classList.contains('element-hover')){
             elementDiv.style.background = `linear-gradient(135deg,\
@@ -344,13 +347,12 @@ class Table {
         }
     }
     defaultHoverOut(elementSymbol){
-        // const elementData = this.allElementData[elementSymbol];
         const elementDiv = this.elementDivs[elementSymbol];
         if (elementDiv.classList.contains('element-hover')){
             elementDiv.style.background = this.elementColorMap[elementSymbol].replace('alpha', '1');
             elementDiv.style.transform = "scale(1)";
             elementDiv.style.backdropFilter = "blur(0)";
-            if (!selective){
+            if (!this.selective){
                 elementDiv.style.zIndex = '10';// To fix a little glitch
                 elementDiv.style.zIndex = 'auto';
             }
@@ -375,11 +377,24 @@ class Table {
             }
         });
     }
+    updateAccordingTo(accord, minHEX, maxHEX){
+        let weights = {};
+        Object.keys(this.allElementData).forEach((symbol)=>{
+            weights[symbol] = this.allElementData[symbol][accord];
+        });
+        const gradiant = Table.generateGradientArray(Object.values(weights), minHEX, maxHEX);
+        Object.keys(this.allElementData).forEach((symbol, index)=>{
+            this.elementColorMap[symbol] = gradiant[index];
+        });
+        this.updateElementBackground();
+        this.updateTempletTexts(accord);
+        return this.elementColorMap;
+    }
     updateTempletTexts(about){
         Object.keys(this.elementDivs).forEach((element)=>{
             const elementDiv = this.elementDivs[element];
             const atomWeightDiv = elementDiv.querySelectorAll('.atomic-weight')[0];
-            atomWeightDiv.innerHTML = isNaN(this.allElementData[element][about]) ? this.allElementData[element][about] : parseFloat(this.allElementData[element][about]).toFixed(2);
+            atomWeightDiv.innerHTML = isNaN(this.allElementData[element][about]) ? this.allElementData[element][about] : roundIfFloat(this.allElementData[element][about], 3);
         });
     }
 //=======================================================================
@@ -407,11 +422,10 @@ class Table {
         const actinoids = document.getElementById('Actinoids');
         const lanthanoids = document.getElementById('Lanthanoids');
 
-        selective = false;
-        clicked = false;
-        // toggle = true;
+        this.selective = false;
+        this.clicked = false;
+        this.toggle = false;
         Object.keys(this.elementDivs).forEach((elementSymbol, index) => {
-            toggle = false;
             const element = this.elementDivs[elementSymbol];
             // Finding the group Using intersection
             element.style.background = this.elementColorMap[elementSymbol].replace('alpha', '1');
@@ -420,7 +434,7 @@ class Table {
             element.style.transform = 'scale(1)';
             elementInfo.style.top = '100%';
             element.style.boxShadow = '';
-            Table.initiateToggle(element);
+            this.initiateToggle(element);
             element.style.border = '';
         });
         Array.from(this.groupBlockPanel.children).forEach((type)=>{
@@ -434,7 +448,7 @@ class Table {
         Table.setZAuto();
 
     }
-    static initiateToggle(elementDiv){
+    initiateToggle(elementDiv){
         const infoDiv = elementDiv.querySelectorAll('.element-info')[0];
         const shell = elementDiv.querySelectorAll('.element-shell')[0];
         const symbol = elementDiv.querySelectorAll('.symbol')[0];
@@ -442,7 +456,7 @@ class Table {
         const name = elementDiv.querySelectorAll('.name')[0];
         const weight = elementDiv.querySelectorAll('.atomic-weight')[0];
         const innerInfoDiv = infoDiv.children;
-        if (toggle){
+        if (this.toggle){
             let rgb = getRGB(elementDiv.style.background);
             symbol.style.top = "50%";
             symbol.style.left = "50%";
@@ -460,7 +474,6 @@ class Table {
                 info.classList.add("animate");
             });
             infoDiv.style.top = '0.78vw';
-            // toggle = false;
         }else{
             symbol.style.top = "0.9vw";
             symbol.style.left = "0.39vw";
@@ -478,7 +491,6 @@ class Table {
                 info.classList.remove("animate");
             });
             infoDiv.style.top = '100%';
-            // toggle = true;
         }
     
     }
@@ -498,43 +510,41 @@ class Table {
             period.style.zIndex = '10';
             period.style.zIndex = 'auto';
         })
-        // this.groupBlockPanel.style.zIndex = 'auto';
     }
     static enterGroupPeriod(groupPeriodDiv){
-        if (!selective){
+        if (!this.selective){
             groupPeriodDiv.style.transform = "translateY(-0.39vw) scale(1.4)";
         }else{
             groupPeriodDiv.style.transform = "scale(1.4)";
         }
     }
     static generateGradientArray(values, minColor, maxColor) {
-        const min = Math.min(...values.filter(v => v !== 'unknown'));
-        const max = Math.max(...values.filter(v => v !== 'unknown'));
-        
-        function interpolateColor(color1, color2, factor) {
-            const result = color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
-            return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
+        function lerp(start, end, t) {
+            return start + (end - start) * t;
         }
-
         function hexToRgb(hex) {
             const bigint = parseInt(hex.slice(1), 16);
             return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
         }
-
         const minRGB = hexToRgb(minColor);
         const maxRGB = hexToRgb(maxColor);
         const grayRGB = [128, 128, 128];
-
-        return values.map(value => {
-            if (value === 'unknown') {
-            return `rgb(${grayRGB[0]}, ${grayRGB[1]}, ${grayRGB[2]})`;
+        let gradientColors = [];
+        const validValues = values
+        .filter(value => !isNaN(value) && value !== null && value !== undefined)
+        .map(Number);
+        values.forEach((value, index) => {
+            if (isNaN(value) | value === null | value === undefined) {
+                gradientColors.push(`rgba(${grayRGB[0]}, ${grayRGB[1]}, ${grayRGB[2]}, alpha)`);
+            } else {
+                let t = index / (validValues.length - 1);
+                let r = Math.round(lerp(minRGB[0], maxRGB[0], t));
+                let g = Math.round(lerp(minRGB[1], maxRGB[1], t));
+                let b = Math.round(lerp(minRGB[2], maxRGB[2], t));
+                gradientColors.push(`rgba(${r}, ${g}, ${b}, alpha)`);
             }
-            const factor = (value - min) / (max - min);
-            return interpolateColor(minRGB, maxRGB, factor);
         });
-    }
-    static getAtomicWeight(elementData){
-        return parseFloat(String(elementData.atomicMass).split("(")[0]).toFixed(2);
+        return gradientColors;
     }
 }
 
@@ -560,4 +570,11 @@ function setBorder(text, div) {
     const rgb = getRGB(text);
     div.style.border = `0.08vw solid  rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, .5)`;
     return rgb;
+}
+function roundIfFloat(num, digits) {
+    num = parseFloat(num);
+    if (!Number.isInteger(num)) {
+        return parseFloat(num).toFixed(digits);
+    }
+    return num;
 }

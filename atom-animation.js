@@ -54,8 +54,8 @@ class AtomCanvas {
     }
     updateCanvasSize() {
         this.vw = window.innerWidth / 100;
-        this.atomCanvas.width = 11 * this.vw;
-        this.atomCanvas.height = 11 * this.vw;
+        this.atomCanvas.width = 18 * this.vw;
+        this.atomCanvas.height = 18 * this.vw;
     }
     animate() {
         this.context.fillStyle = 'rgba(0, 0, 0, 0)';
@@ -86,7 +86,11 @@ class AtomCanvas {
         const elementName = document.getElementById('elementName');
         const wikipedia = document.getElementById('wikipedia').querySelector("a");
         const electronConfig = expandElectronConfig(this.allElectronicConfig, elementData.electronicConfiguration);
+        const eachProperty = document.querySelectorAll(".property");
 
+        eachProperty.forEach((eachPropertyElement)=>{
+            eachPropertyElement.nextElementSibling.innerHTML = elementData[eachPropertyElement.innerHTML];
+        });
         elementAtomicNum.innerHTML = elementData.atomicNumber;
         elementSymbol.innerHTML = elementData.symbol;
         elementName.innerHTML = elementData.name;
@@ -146,8 +150,3 @@ class AtomCanvas {
         return orbitRadii;
     }
 }
-
-// const ATOM_CANVAS = document.getElementById('atom');
-// let atomCanvas = new AtomCanvas(ATOM_CANVAS);
-// atomCanvas.updateCanvas('1s1');
-// updateElectronConfigDiv(atomCanvas.electrons);

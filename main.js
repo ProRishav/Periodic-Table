@@ -1,7 +1,3 @@
-let selective  = false;
-let clicked = false;
-let toggle = false;
-
 function main(){
     const overlayDiv = document.querySelectorAll('.overlay')[0]
     const overlay = new Overlay(overlayDiv);
@@ -30,7 +26,25 @@ function main(){
     function updateAtomPreview(){
         atomCanvas.updatePreview(table.currentHoverElement);
     }
+    function shiftTable(){
+        if (sidePanel.pannelToggle){
+            table.table.style.left = "3vw";
+        }else{
+            table.table.style.left = "14vw";
+        }
+    }
+    sidePanel.clickedSidePanel(shiftTable);
 
+    const eachProperty = document.querySelectorAll(".each-property");
+    eachProperty.forEach((element)=>{
+        element.addEventListener("click", ()=>{
+            table.updateAccordingTo(element.querySelectorAll(".property")[0].innerHTML, '#3266a8', '#b84646');
+            eachProperty.forEach((element)=>{
+                element.style.background = "transparent";
+            });
+            element.style.background = "#222";
+        });
+    })
 
     // ========================= On window resize ===========================
     window.addEventListener('resize', (event)=>{
@@ -43,6 +57,4 @@ function main(){
         });
         atomCanvas.updateCanvas();
     });
-
-
 }

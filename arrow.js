@@ -82,6 +82,7 @@ function closeAllAccordions(exceptAccordion) {
         if (accordion !== exceptAccordion) {
             const contentDiv = accordion.querySelector('.content');
             contentDiv.style.height = '0px';
+            contentDiv.style.padding = '0vw';
             const canvasInstance = accordion.canvasInstance;
             if (canvasInstance) {
                 canvasInstance.targetAngle = -45;
@@ -101,12 +102,14 @@ accordions.forEach((accordion) => {
         if (!isHeaderClick) return;
         if (canvas.isRotating) return;
         const contentDiv = accordion.querySelector('.content');
-        if (contentDiv.style.height === '20vw') {
+        if (contentDiv.style.height === '35vh') {
             contentDiv.style.height = '0px';
+            contentDiv.style.padding = '0vw';
             canvas.targetAngle = -45;
         } else {
             closeAllAccordions(accordion);
-            contentDiv.style.height = '20vw';
+            contentDiv.style.height = '35vh';
+            contentDiv.style.padding = '0.4vw';
             canvas.targetAngle = 45;
         }
         canvas.isRotating = true;
@@ -114,4 +117,3 @@ accordions.forEach((accordion) => {
     });
     canvas.drawRectangles(canvas.rotationAngle);
 });
-
